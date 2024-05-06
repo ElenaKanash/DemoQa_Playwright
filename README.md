@@ -1,6 +1,6 @@
 # DemoQa_Playwright
 
-##Playwright automation testing ToolsQA site - https://demoqa.com
+Playwright automation testing ToolsQA site - https://demoqa.com
 Testing web elements, forms, pop up windows;
 
 Testing different types of widgets;
