@@ -23,13 +23,16 @@ test.describe('Practice Form', () => {
   })
 
   test('Filling Practice Form', async ({ page }) => {
-    await firstNameField.fill(firstName);
-    await lastNameField.fill(lastName);
-    await emailField.fill(email)
+    const genreMale = page.locator('[for="gender-radio-1"]');
 
+    await firstNameField.fill(firstName);
     await expect(firstNameField).toHaveValue(firstName);
+    await lastNameField.fill(lastName);
     await expect(lastNameField).toHaveValue(lastName);
+    await emailField.fill(email); 
     await expect(emailField).toHaveValue(email);
+    await genreMale.check()  
+    await expect(genreMale).toBeChecked();
   });
 
   test('Validating the form with empty fields', async ({ page }) => {
