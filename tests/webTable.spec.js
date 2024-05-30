@@ -30,8 +30,11 @@ test.describe('Web Table', () => {
     await page.getByPlaceholder('Department').fill('QA department');
     await page.getByRole('button', { name: 'Submit' }).click();
 
-    await expect(page.getByRole('gridcell')).toContainText(['Ivan', 'Ivanov', '25',
-      'Ivan@example.com', '1000', 'QA department']);
+    const userRow = page.getByRole('row').filter({ hasText: 'Ivan' });
+    const userRowText = (await userRow.innerText()).split('\n').slice(0, 6);
+
+    await expect(userRowText).toEqual(['Ivan', 'Ivanov', '25',
+      'Ivan@example.com', '1000', 'QA department'])
   });
 
   test('Add some new Users in the table', async ({ page }) => {
