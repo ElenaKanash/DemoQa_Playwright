@@ -60,6 +60,36 @@ test.describe('Web Table', () => {
     await expect(nextButton).toBeEnabled();
   });
 
+  test('Sort table rows by the column "First Name"', async ({ page }) => {
+    const table = page.getByRole('grid');
+    const headers = table.getByRole('columnheader');
+    const headersData = await headers.allTextContents();
+    const rows = table.getByRole('rowgroup');
 
+    //get and save data from the rows
+    const getTableData = async () => {
+      const tableData = [];
+      for (let i = 0; i < await rows.count(); i++) {
+        const columns = rows.nth(i).getByRole('gridcell');
+        const columnsData = (await columns.allTextContents())
+          .map(el => el.trim());
+        // get an array tableData with object from the array headersData, where the objects keys are the headers, and the values are the data from the table rows    
+        tableData.push(headersData.reduce((acc, el, idx) => { return { ...acc, [el]: columnsData[idx] }; }, {}));
+      }
+      return tableData.filter(obj => obj['First Name']); //get rows with filled rowsData 
+    }
+    // get expected rows data  
+    const originalTableData = await getTableData();
 
-});
+    //sort table rows alphabetically 
+    const expectedTableData = originalTableData
+      .sort((a, b) => a["First Name"].localeCompare(b["First Name"]));
+
+    const selectedHeader = headers.filter({ hasText: "First Name" });
+    await selectedHeader.click();
+    const actualTableData = await getTableData();
+
+    await expect(actualTableData).toEqual(expectedTableData);
+  })
+
+})
