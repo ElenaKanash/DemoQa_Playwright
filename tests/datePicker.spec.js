@@ -3,12 +3,12 @@ import { test, expect } from "@playwright/test";
 test.describe('Date Picker', () => {
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/' + 'date-picker');
-    /* await page.goto('/');
+    // await page.goto('/' + 'date-picker');
+    await page.goto('/');
     await page.getByText('Elements').click();
     await page.getByText('Widgets').click();
     await page.getByText('Date Picker').click();
-    await expect(page).toHaveURL('/' + 'date-picker'); */
+    await expect(page).toHaveURL('/' + 'date-picker');
   })
 
 
@@ -25,12 +25,12 @@ test.describe('Date Picker', () => {
     await page.locator('#datePickerMonthYearInput').click();
     let date = new Date();
     date.setDate(date.getDate() + 2);  //return the day after tomorrow
-    const expectedDay = date.getDate();    
+    const expectedDay = date.getDate();
 
-    const expectedMonthNumeric = date.toLocaleString('en-US', { month: '2-digit' });   
-    const expectedMonthStr = date.toLocaleString('en-US', { month: 'long' });  
+    const expectedMonthNumeric = date.toLocaleString('en-US', { month: '2-digit' });
+    const expectedMonthStr = date.toLocaleString('en-US', { month: 'long' });
 
-    const pickerLocatorDateTomorrow = `[aria-label*="${expectedMonthStr} ${expectedDay}"]`;   
+    const pickerLocatorDateTomorrow = `[aria-label*="${expectedMonthStr} ${expectedDay}"]`;
     await page.locator(pickerLocatorDateTomorrow).click();
 
     const expectedValue = `${expectedMonthNumeric}/0${expectedDay}/2024`;
@@ -38,5 +38,5 @@ test.describe('Date Picker', () => {
 
     await expect(page.locator('#datePickerMonthYearInput')).toHaveValue(expectedValue);
   });
-  
+
 })
