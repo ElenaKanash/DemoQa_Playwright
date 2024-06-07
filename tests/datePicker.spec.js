@@ -12,7 +12,7 @@ test.describe('Date Picker', () => {
   })
 
 
-  test('Select date (day, month, year)', async ({ page }) => {
+  test('Select date (day, month, year) as User', async ({ page }) => {
     await page.locator('#datePickerMonthYearInput').click();
     await page.locator('.react-datepicker__month-select').selectOption('January');
     await page.locator('.react-datepicker__year-select').selectOption('2025');
@@ -21,4 +21,22 @@ test.describe('Date Picker', () => {
     await expect(page.locator('#datePickerMonthYearInput')).toHaveValue('01/01/2025');
   });
 
+  test('Select date with JS method Date', async ({ page }) => {
+    await page.locator('#datePickerMonthYearInput').click();
+    let date = new Date();
+    date.setDate(date.getDate() + 2);  //return the day after tomorrow
+    const expectedDay = date.getDate();    
+
+    const expectedMonthNumeric = date.toLocaleString('en-US', { month: '2-digit' });   
+    const expectedMonthStr = date.toLocaleString('en-US', { month: 'long' });  
+
+    const pickerLocatorDateTomorrow = `[aria-label*="${expectedMonthStr} ${expectedDay}"]`;   
+    await page.locator(pickerLocatorDateTomorrow).click();
+
+    const expectedValue = `${expectedMonthNumeric}/0${expectedDay}/2024`;
+    console.log(expectedValue)
+
+    await expect(page.locator('#datePickerMonthYearInput')).toHaveValue(expectedValue);
+  });
+  
 })
