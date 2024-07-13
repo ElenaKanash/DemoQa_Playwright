@@ -33,7 +33,7 @@ test.describe('Date Picker', () => {
     const pickerLocatorDateTomorrow = `[aria-label*="${expectedMonthStr} ${expectedDay}"]`;
     await page.locator(pickerLocatorDateTomorrow).click();
 
-    const expectedValue = `${expectedMonthNumeric}/0${expectedDay}/2024`;
+    const expectedValue = `${expectedMonthNumeric}/${expectedDay}/2024`;
     console.log(expectedValue)
 
     await expect(page.locator('#datePickerMonthYearInput')).toHaveValue(expectedValue);
